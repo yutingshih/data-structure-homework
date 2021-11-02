@@ -5,7 +5,7 @@ Textbook: Fundamentals of Data Structures in C 2nd edition by Ellis Horowitz, Sa
 
 ## Compile
 
-All the homework problems share the same Makefile. To do the compilation, please navigate into one of the homework directories, and then "make" it with `../ Makefile`. 
+All the homework problems share the same Makefile. To do the compilation, please navigate into one of the homework directories, and then "make" it with `../Makefile`. 
 
 ```bash
 cd homework
@@ -14,9 +14,16 @@ make -f ../Makefile
 
 ## Run Tests
 
-There may be several test inputs and golden outputs in each homework directories. To check if the program is correct, please run the following commamd which shows the differences between the program's output and the correct answer.
+There may be several test inputs and golden outputs in each homework directories. To check if the program is correct, please run the following commamd
 
 ```bash
-./a.out < input.txt | diff -w - output.txt
+make -f ../Makefile test
 ```
 
+or directly run the test script in the homework subdirectory.
+
+```bash
+../test.sh
+```
+
+Both ways show the result of each test case, passed or failed. Additionally, if there is any test case failed, it will show you the differences between the program's output and golden output.
