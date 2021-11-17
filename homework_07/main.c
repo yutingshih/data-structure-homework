@@ -132,53 +132,33 @@ polyNode* psub(polyNode* a, polyNode* b) {
     return head;
 }
 
-polyNode* pmult(const polyNode* a, const polyNode* b) {
+polyNode* pmult(const polyNode* A, const polyNode* B) {
     polyNode* head = getNode(0, -1);
-    polyNode* curr = head;
-    curr->link = head;
+    polyNode* tail = head;
 
-    polyNode* a_curr = a->link;
-    polyNode* b_curr = b->link;
+    polyNode* a = A->link;
+    polyNode* b = B->link;
 
-    if (a_curr == a || b_curr == b) {
-        return head;
-    }
+    if (a == A || b == B) return head;
 
-    int max_expon = a_curr->expon + b_curr->expon;
-    for (int i = max_expon; i >= 0; i--) {
-        curr->link = getNode(0, i);
-        curr = curr->link;
-    }
-    curr->link = head;
-
-    for (a_curr = a->link; a_curr != a; a_curr = a_curr->link) {
-        for (b_curr = b->link; b_curr != b; b_curr = b_curr->link) {
-            int expon = a_curr->expon + b_curr->expon;
-            for (int cnt = 0; cnt <= max_expon; cnt++) {
-                if (curr->expon == expon) break;
-                curr = curr->link;
-            }
-            if (curr->expon != expon) {
-                fprintf(stderr, "Broken linked list");
-                exit(EXIT_FAILURE);
-            }
-            curr->coef += a_curr->coef * b_curr->coef;
+    int degree = a->expon + b->expon;
+    int* coef = calloc(degree + 1, sizeof(int));
+    for (a = A->link; a != A; a = a->link) {
+        for (b = B->link; b != B; b = b->link) {
+            int expon = a->expon + b->expon;
+            coef[expon] += a->coef * b->coef;
         }
     }
-
-    curr = head->link;
-    polyNode* temp = curr->link;
-    for (int i = max_expon; i > 0; i--) {
-        if (temp->coef == 0) {
-            curr->link = temp->link;
-            retNode(temp);
-            temp = curr->link;
-        } else {
-            curr = curr->link;
-            temp = temp->link;
+    
+    for (int i = degree; i >= 0; i--) {
+        if (coef[i]) {
+            tail->link = getNode(coef[i], i);
+            tail = tail->link;
         }
     }
-
+    tail->link = head;
+    
+    free(coef); coef = NULL;
     return head;
 }
 
