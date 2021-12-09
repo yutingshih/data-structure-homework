@@ -28,3 +28,4 @@ insert 45
 delete min
 delete max
 show
+quit
