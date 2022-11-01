@@ -1,0 +1,9 @@
+4
+insert 1000 1000
+insert 0010 0010
+insert 1001 1001
+insert 1100 1100
+insert 0000 0000
+insert 0001 0001
+delete 0000
+quit
